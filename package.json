@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-devices": "playwright test --config=playwright-devices.config.ts",
-    "test:allure:head": "playwright test --headed --reporter=allure-playwright",
-    "test:allure": "playwright test --reporter=allure-playwright",
+    "test-devices": "npx playwright test --config=playwright-devices.config.ts",
+    "test:allure:head": "npx playwright test --headed --reporter=allure-playwright",
+    "test:allure": "npx playwright test --reporter=allure-playwright",
     "report": "npx allure generate",
     "open": "npx allure open allure-report"
   },
