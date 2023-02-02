@@ -19,8 +19,16 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests with allure report
       run: npm run test:allure
-   # - name: Create report
-    #  if: always()
+    - name: Create report
+      if: always()
+      run: npm run report
+    - name: Upload Results
+    uses: actions/upload-artifact@v1
+    if: always()
+    with:
+    name: allure-results
+    path: ./allure-results # Name of the folder with allure results
+   - name: Publishing Allure artifact to Github Actions
     - uses: actions/upload-artifact@v2
       if: always()
       with:
@@ -28,5 +36,7 @@ jobs:
         path: ./allure-report
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4
+      if: always()
       with:
-        folder: ./allure-report # The folder the action should deploy
+      branch: gh-pages # The branch the action should deploy to.
+      folder: allure-report # The folder the action should deploy.
