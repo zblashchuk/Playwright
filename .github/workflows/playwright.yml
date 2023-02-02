@@ -20,10 +20,10 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests with allure report
       run: npm run test:allure
-    - name: Create report
-      if: always()
+    #- name: Create report
+     # if: always()
       #try to save history
-      run: npm run report
+     # run: npm run report
     - uses: actions/upload-artifact@v2
       if: always()
       with: 
