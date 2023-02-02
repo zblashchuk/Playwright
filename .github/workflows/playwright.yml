@@ -17,11 +17,17 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npm run test-devices
+    - name: Run Playwright tests with allure report
+      run: npm run test:allure
+    - name: Create report
+      if: always()
+      run: npm run report
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 90
+        name: allure-report
+        path: ./allure-report
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: ./allure-report # The folder the action should deploy

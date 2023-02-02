@@ -12,7 +12,7 @@ import { devices } from '@playwright/test';
  */
 const config: PlaywrightTestConfig = {
   
-  testDir:  './task1', /*'./e2e',*/
+  testDir: './task1',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
@@ -31,14 +31,15 @@ const config: PlaywrightTestConfig = {
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  //reporter: "allure-playwright",
+  reporter: [
+    ["html", { open: "never" }],
+    ['allure-playwright'],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     headless: true,
-    browserName: "chromium",
-    baseURL:"https://www.redmine.org/",
-    video:"on",
+    
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://localhost:3000',
@@ -48,7 +49,27 @@ const config: PlaywrightTestConfig = {
   },
 
   /* Configure projects for major browsers */
-  
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
+
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+      },
+    },
+
+    /*{
+      name: 'webkit',
+      use: {
+        ...devices['Desktop Safari'],
+      },
+    },*/
 
     /* Test against mobile viewports. */
     // {
@@ -77,7 +98,7 @@ const config: PlaywrightTestConfig = {
     //     channel: 'chrome',
     //   },
     // },
-  
+  ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',
@@ -90,3 +111,4 @@ const config: PlaywrightTestConfig = {
 };
 
 export default config;
+
