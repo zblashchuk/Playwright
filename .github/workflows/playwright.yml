@@ -1,11 +1,12 @@
 name: Playwright Tests
 on:
-  workflow_dispatch:
-push:
-branches:
-- 'main' # (main branch) Set branch of the GH repo to push      
+  push:
+    branches: [ main, master ]
+permissions:
+  contents: write
+
 jobs:
-test_suite:
+  test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -18,7 +19,10 @@ test_suite:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests with allure report
-      run: npm run test:allure
+      run: npm run test:allure     
+    - name: Copy History
+    if: always()
+    run: cp -r $(pwd)/docs/history/. $(pwd)/allure-results/history
     #- name: Create report
       #if: always()
       #run: npm run report
@@ -30,13 +34,13 @@ test_suite:
       path: ./allure-results # Name of the folder with allure results
    - name: Publishing Allure artifact to Github Actions
      uses: actions/upload-artifact@v2
-     if: always()
-    with:
-    name: allure-report
-    path: allure-report
-    - name: Deploy report
-   uses: JamesIves/github-pages-deploy-action@4.1.4
-   if: always()
-   with:
-   branch: gh-pages # The branch the action should deploy to.
-   folder: allure-report # The folder the action should deploy.
+
+      if: always()
+      with: 
+        name: allure-report
+        path: ./allure-report
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages # The branch the action should deploy to.
+        folder: ./allure-report # The folder the action should deploy.
