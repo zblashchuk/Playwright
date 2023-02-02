@@ -6,8 +6,8 @@
   "scripts": {
     "test-devices": "npx playwright test --config=playwright-devices.config.ts",
     "test:allure:head": "npx playwright test --headed --reporter=allure-playwright",
-    "test:allure": "npx playwright test --reporter=allure-playwright",
-    "report": "npx allure generate",
+    "test:allure": "npx playwright test --reporter=line,allure-playwright",
+    "report": "npx allure generate my-allure-results -o allure-report --clean",
     "open": "npx allure open allure-report"
   },
   "keywords": [],
